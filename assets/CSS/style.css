@@ -1,0 +1,16 @@
+
+body {
+    background-image: url(images/"5D32YBOFBF.jpg");
+      background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.bottom{
+	position: absolute; 
+	bottom: 30px; 
+	left:43%;
+}
+
+.btn{
+	font-weight: bold;
+}

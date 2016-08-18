@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mike's Hangman Game</title>
+
+<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+ 
+</head>
+<body>
+
+
+
+<script type="text/javascript">
+
+
+
+
+// WORD LIST
+
+var array1 = ["Yale", "Stanford", "Columbia", "Duke",];
+var array2 = ["Tiger", "Bird", "Pigeon", "Ant", "Snake", "Dinosaur", "Cat", "Dog", "Monkey", "Wolverine"];
+var word = computerChooseWord(array2).toLowerCase();
+var emptyString = "";
+
+var answer = "";
+
+
+var loss = 0;
+var win = 0;
+
+
+// COMPUTER CHOOSES WORD FUNCTION: computerChooseWord(input)
+
+function computerChooseWord (input) {
+	 var x = Math.floor(Math.random() * input.length);
+	 return input[x];}
+
+// TURNS WORD TO DASHES FUNCTION: turnWordToDashes(input)
+
+function turnWordToDashes(input){
+	for(var x=0; x<=input.length-1;x++)
+			emptyString = emptyString + "-";
+			return emptyString;}
+
+var dashes = turnWordToDashes(word);
+
+function turnDashesToWord(word, letter, index){
+	return dashes.slice(0, index) + letter + dashes.slice(index+1, (dashes.length));}
+
+
+// CHECKS TO SEE IF THE LETTER WAS ACCEPTABLE.
+
+function roundChecker(word, letter){
+
+	if(letter == null){alert("Canceling game... : (")}
+
+		else if(letter == false){var letter = prompt("You didn't pick a letter! Try again...");roundChecker(word, letter);}
+		
+		else if(letter == false && letter !== 0){var letter = prompt("You didn't pick a letter! Try again...");roundChecker(word, letter);}	
+		
+		else if(letter.length <0 || letter.length > 1) {var letter = prompt("You picked too many letters!" + "\n" +"\n"+ "Just pick one letter!" + "\n" +"\n"+ "Try again..."); roundChecker(word, letter);}
+
+		else if(letter >= 0) {var letter = prompt("That's a number! You need to pick a letter! Try again..."); roundChecker(word, letter);}	
+
+		else if(word.includes(letter.toLowerCase()) == true && word !== newLetterToDashes(word, letter))
+				
+				{rightAnswer(word, letter, word.indexOf(letter.toLowerCase()));
+				newLetterToDashes(word, letter); 
+				win = win + 1;  
+				var letter = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, letter));
+				roundChecker(word, letter);}
+
+		else if(word == newLetterToDashes(word, letter)){alert("You Win! Great game!" + "\n" + "\n" + "Your word was " + word.toUpperCase());}	
+	
+		else if (loss <= 4){loss = loss + 1;
+			numberOfLosses(loss); var letter = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, letter)); roundChecker(word, letter);}
+		
+		else
+		{alert("Sorry! Your letter didn't match." + "\n" + "\n" + "You're dead. " + "\n" + "\n" + "_________" + "\n" + "|        |" + "\n" + "|        0" + "\n" + "|       /|\\" + "\n" + "|       / \\" + "\n" + "|" + "\n" + "|" + "\n" + "\n" + "Your word was " + word.toUpperCase() + "\n" + "\n" + "You lose!!!" + "\n" + "\n" + "GAME OVER")}
+}
+
+// RIGHT ANSWER
+
+function rightAnswer(word, letter, index){
+	alert("Yes! This " + (word.length) + " letter word has the letter " + letter.toLowerCase() + "." +"\n" + "\n" +  turnDashesToWord(word, letter, index) + "\n" +  "\n" + "Great job!");
+}
+
+function newLetterToDashes(word, letter){
+	if(word.includes(letter) == true)
+		{dashes = turnDashesToWord(word, letter, word.indexOf(letter));
+			return dashes;}
+		else{return dashes;}
+}
+
+function numberOfLosses(input){
+	if (loss == 1)
+		{alert("Sorry! Your letter didn't match." + "\n" + "\n" + "You get a head. " + "\n" + "\n" + "_________" + "\n" + "|        |" + "\n" + "|        0" + "\n" + "|" + "\n" + "|" + "\n" + "|");}
+	else if(loss == 2)
+		{alert("Sorry! Your letter didn't match." + "\n" + "\n" + "You get a body. " + "\n" + "\n" + "_________" + "\n" + "|        |" + "\n" + "|        0" + "\n" + "|        |" + "\n" + "|" + "\n" + "|");}
+	else if(loss == 3)
+		{alert("Sorry! Your letter didn't match." + "\n" + "\n" + "You get an arm. " + "\n" + "\n" + "_________" + "\n" + "|        |" + "\n" + "|        0" + "\n" + "|         |\\" + "\n" + "|" + "\n" + "|" + "\n" + "|")}
+	else if(loss == 4)
+		{alert("Sorry! Your letter didn't match." + "\n" + "\n" + "You get two arms. " + "\n" + "\n" + "_________" + "\n" + "|        |" + "\n" + "|        0" + "\n" + "|       /|\\" + "\n" + "|" + "\n" + "|" + "\n" + "|")}
+	else if(loss == 5)
+		{alert("Sorry! Your letter didn't match." + "\n" + "\n" + "You get a leg. " + "\n" + "\n" + "_________" + "\n" + "|        |" + "\n" + "|        0" + "\n" + "|       /|\\" + "\n" + "|         \\" + "\n" + "|" + "\n" + "|" + "\n" + "\n" + "ONE MORE WRONG AND YOU LOSE!!!")}
+	else if(loss == 6)
+		{alert("Sorry! Your letter didn't match." + "\n" + "\n" + "You're dead. " + "\n" + "\n" + "_________" + "\n" + "|        |" + "\n" + "|        0" + "\n" + "|       /|\\" + "\n" + "|       / \\" + "\n" + "|" + "\n" + "|" + "\n" + "\n" + "You lose!!!" + "\n" + "\n" + "GAME OVER")}
+	
+}
+
+
+
+
+// GAME STARTS 
+if(word.length == 8) {alert("A " + word.length + " letter word has been chosen." + "\n" + "\n" + "The category is: Animals");}
+else{alert("A " + word.length + " letter word has been chosen." + "\n" + "\n" + "The category is: Animals");}
+
+
+// ROUND 1: PLAYER CHOOSES A LETTER
+
+var letter = prompt("Pick a letter to begin...");
+
+roundChecker(word, letter);
+
+
+
+
+
+
+// function nextRound(word, letter){
+// 		roundChecker(word, letter);
+// 		// newLetterToDashes(word, letter);
+// }
+
+
+
+
+
+
+// var l1 = prompt("Pick a letter to begin...");
+
+// 	// IF LETTER IS CORRECT...
+// 	roundChecker(word, l1);
+// 	newLetterToDashes(word, l1);
+	
+	// nextRound(l1, l2);
+	// nextRound(l2, l3);
+	// nextRound(l3, l4);
+	// nextRound(l4, l5);
+	
+
+	// ROUND 2
+
+// var l2 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l1));
+// 	roundChecker(word, l2);
+// 	newLetterToDashes(word, l2);
+	
+// 	// ROUND 3
+
+// var l3 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l2));
+// 	roundChecker(word, l3);
+// 	newLetterToDashes(word, l3);
+
+// 	// ROUND 4
+
+// var l4 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l3));
+// 	roundChecker(word, l4);
+// 	newLetterToDashes(word, l4);
+
+// 	// ROUND 5
+
+// var l5 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l4));
+// 	roundChecker(word, l5);
+// 	newLetterToDashes(word, l5);
+	
+// 	// ROUND 6
+
+// var l6 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l5));
+// 	roundChecker(word, l6);
+// 	newLetterToDashes(word, l6);
+
+// 	// ROUND 7
+
+// var l7 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l6));
+// 	roundChecker(word, l7);
+// 	newLetterToDashes(word, l7);
+
+// 	// ROUND 8
+
+// var l8 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l7));
+// 	roundChecker(word, l8);
+// 	newLetterToDashes(word, l8);
+
+// 	// ROUND 9
+
+// var l9 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l8));
+// 	roundChecker(word, l9);
+// 	newLetterToDashes(word, l9);
+
+// 	// ROUND 10
+
+// var l10 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l9));
+// 	roundChecker(word, l10);
+// 	newLetterToDashes(word, l10);
+	
+// 	// ROUND 11
+
+// var l11 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l10));
+// 	roundChecker(word, l11);
+// 	newLetterToDashes(word, l11);
+
+// 	// ROUND 12
+
+// var l12 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l11));
+// 	roundChecker(word, l12);
+// 	newLetterToDashes(word, l12);
+
+// 	// ROUND 13
+
+// var l13 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l12));
+// 	roundChecker(word, l13);
+// 	newLetterToDashes(word, l13);
+	
+// 	// ROUND 14
+
+// var l14 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l13));
+// 	roundChecker(word, l14);
+// 	newLetterToDashes(word, l14);
+
+// 	// ROUND 15
+
+// var l15 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l14));
+// 	roundChecker(word, l15);
+// 	newLetterToDashes(word, l15);
+
+// 	// ROUND 16
+
+// var l16 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l15));
+// 	roundChecker(word, l16);
+// 	newLetterToDashes(word, l16);
+
+// 	// ROUND 17
+
+// var l17 = prompt("Pick another letter..." + "\n" + "\n" + newLetterToDashes(word, l16));
+// 	roundChecker(word, l17);
+// 	newLetterToDashes(word, l17);
+	
+
+
+
+    // _________
+    // |        |
+    // |        0
+    // |       /|\
+    // |       / \
+    // |
+    // |
+
+
+
+
+
+
+</script>
+
+
+
+</body>
+</html>
